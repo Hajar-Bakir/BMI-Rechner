@@ -1,39 +1,23 @@
-name: Cypress Tests
+name: Cypress Test
 
 on:
   push:
     branches:
-      - main
+      - main  
+  pull_request:
+    branches:
+      - main  
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18' 
+    - name: Install dependencies
+      run: npm install
 
-      - name: Install Dependencies
-        run: npm install
-
-  
-      - name: Start Node.js Server
-        run: |
-          npm start &
-          echo "Waiting for server to start"
-          until $(curl --output /dev/null --silent --head --fail http://localhost:5500); do
-            printf '.'
-            sleep 1
-          done
-          echo "Server is up and running"
-
-      - name: Run Cypress Tests
-        uses: cypress-io/github-action@v2
-        with:
-          start: npm start
-          wait-on: 'http://localhost:5500'
+    - name: Run Cypress tests
+      run: npm run cy:run
