@@ -7,8 +7,8 @@
         "start": "nodemon server.js",
         "test": "npx jest",
         "start-prod": "npm start",
+        "cy:run": "cypress run",
         "start-server": "npm start &"
-        "cy:run": "cypress run"
     },
     "dependencies": {
         "express": "^4.18.2"
